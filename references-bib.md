@@ -1,0 +1,10 @@
+@article{bioemu2025,
+  title={Scalable emulation of protein equilibrium ensembles with generative deep learning},
+  author={Lewis, Sarah and Hempel, Tim and Jim{\'e}nez-Luna, Jos{\'e} and Gastegger, Michael and Xie, Yu and Foong, Andrew YK and Satorras, Victor Garc{\'\i}a and Abdin, Osama and Veeling, Bastiaan S and Zaporozhets, Iryna and Chen, Yaoyi and Yang, Soojung and Foster, Adam E. and Schneuing, Arne and Nigam, Jigyasa and Barbero, Federico and Stimper Vincent and  Campbell, Andrew and Yim, Jason and Lienen, Marten and Shi, Yu and Zheng, Shuxin and Schulz, Hannes and Munir, Usman and Sordillo, Roberto and Tomioka, Ryota and Clementi, Cecilia and No{\'e},  Frank},
+  journal={Science},
+  pages={eadv9817},
+  year={2025},
+  publisher={American Association for the Advancement of Science},
+  doi={10.1126/science.adv9817}
+}
+
