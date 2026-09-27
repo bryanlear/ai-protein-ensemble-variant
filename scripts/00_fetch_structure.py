@@ -5,6 +5,8 @@ from pathlib import Path
 from urllib.error import HTTPError
 from urllib.request import urlopen, urlretrieve
 
+#python3 01_fetch_structure.py [AlphaFold ID or UniProt] --> Note that Alphafold ID is usually: AF-UniProt ID-F1/F2 or whatever
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("uniprot_id", help="UniProt ID of protein to fetch")

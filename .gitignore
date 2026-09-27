@@ -1,2 +1,5 @@
 *.pdb
+*.fasta
 *.json
+protein-of-interest/
+data/
