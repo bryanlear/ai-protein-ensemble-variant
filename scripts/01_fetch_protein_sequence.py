@@ -6,6 +6,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("uniprot_id", help="UniProt ID of protein to fetch")
     args = parser.parse_args()
+    
     uniprot_id = args.uniprot_id.upper()
 
     directory = Path("data") / uniprot_id

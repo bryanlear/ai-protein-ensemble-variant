@@ -3,3 +3,5 @@
 *.json
 protein-of-interest/
 data/
+literature/charron-et-al-2025.pdf
+*.env
