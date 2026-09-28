@@ -1,7 +1,13 @@
 *.pdb
 *.fasta
 *.json
-protein-of-interest/
-data/
-literature/charron-et-al-2025.pdf
 *.env
+.DS_Store
+
+
+protein-of-interest/
+__pycache__/
+data/
+
+literature/confrover.pdf
+
