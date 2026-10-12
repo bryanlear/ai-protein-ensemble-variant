@@ -2,10 +2,13 @@
 *.fasta
 *.json
 *.env
+*.zip
+
 .DS_Store
 
 
 protein-of-interest/
+outputs/my_protein
 __pycache__/
 data/
 
