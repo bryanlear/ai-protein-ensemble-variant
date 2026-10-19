@@ -3,9 +3,11 @@
 *.json
 *.env
 *.zip
+*.csv
+*.npy
+*.npz
 
 .DS_Store
-
 
 protein-of-interest/
 outputs/my_protein
