@@ -1,7 +1,7 @@
 import mdtraj as md
 import numpy as np
 
-traj = md.load_xtc("outputs/my_protein/mature_chain.xtc", top="outputs/my_protein/mature_chain.pdb",)
+traj = md.load_xtc("outputs/my_protein/mature_chain_valid.xtc", top="outputs/my_protein/mature_chain.pdb",)
 
 ca_indices = traj.topology.select("name CA") #select all Carbon alphas 
 

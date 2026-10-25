@@ -7,12 +7,9 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import silhouette_samples, silhouette_score
 
-RMSD_MATRIX_PATH = Path(
-    "/outputs/my_protein/"
-    "full_length_ca_pairwise_rmsd_angstrom.npy")
-OUTPUT_DIRECTORY = Path(
-    "/outputs/my_protein/k_medoids")
-
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+RMSD_MATRIX_PATH = (PROJECT_ROOT/ "outputs/my_protein/mature_chain_full_length_ca_pairwise_rmsd_angstrom.npy")
+OUTPUT_DIRECTORY = PROJECT_ROOT / "outputs/my_protein/k_medoids"
 
 def initialize_medoids(distance_matrix, number_of_clusters):
     number_of_conformations = distance_matrix.shape[0]
