@@ -5,7 +5,7 @@ from bioemu_benchmarks.utils import get_physical_traj_indices
 ### BioEmu filtering is already on. This script loads the retained conformations using the .xtc and .pdb output files 
 ### from BioEmu and applies the filters again just to make sure they are valid for downstream analysis
  
-traj = md.load_xtc("outputs/my_protein/samples.xtc", top="outputs/my_protein/topology.pdb",)
+traj = md.load_xtc("outputs/my_protein/mature_chain.xtc", top="outputs/my_protein/mature_chain.pdb",)
 
 assert np.isfinite(traj.xyz).all()
 
@@ -16,6 +16,6 @@ print("Total structures:", traj.n_frames)
 print("Valid structures:", valid_traj.n_frames)
 print("Rejected structures:", traj.n_frames - valid_traj.n_frames)
 
-valid_traj.save_xtc("samples_valid.xtc")
+valid_traj.save_xtc("mature_chain_valid.xtc")
 
 ### samples_valid.xtc filtered out 2 extra structures fromt he 781/1000 retained by BioEmu
