@@ -11,6 +11,7 @@
 
 protein-of-interest/
 outputs/my_protein
+outputs/bioemu2/
 __pycache__/
 data/
 
