@@ -78,7 +78,7 @@ def main():
     for i, values in enumerate(rmsd):
         ax.plot(time_ns, values, label=f"Trajectory {i}", linewidth=1.1, alpha=0.2)
     ax.plot(time_ns, mean_rmsd, label="Mean (8 trajectories)",
-            color="black", linewidth=2.5, alpha=1.0, zorder=10)
+            color="black", linewidth=1.1, alpha=1.0, zorder=10)
     label = "Cα" if args.selection == "protein and name CA" else args.selection
     ax.set(title=f"{input_dir.name} — {label} RMSD",
            xlabel="Time (ns)", ylabel="RMSD (Å)", xlim=(0, 100), ylim=(0, None))
