@@ -22,11 +22,12 @@ SELECTION = "protein and name CA"
 N_REPLICAS = 8
 N_FRAMES = 101
 
-def calculate_rmsf(coordinates_nm, reference_nm):
-    delta = np.asarray(coordinates_nm, dtype=np.float64) - reference_nm
+def calculate_rmsf(coordinates_nm):
+    coordinates = np.asarray(coordinates_nm, dtype=np.float64)
+    delta = coordinates - coordinates.mean(axis=0)
     return 10.0 * np.sqrt(np.mean(np.sum(delta**2, axis=2), axis=0))
 
-def analyze(input_dir, reference_mode):
+def analyze(input_dir):
     curves = []
     reference = None
     topology = None
@@ -57,26 +58,23 @@ def analyze(input_dir, reference_mode):
         coordinates = ca.xyz.astype(np.float64)
         if not np.isfinite(coordinates).all():
             raise ValueError(f"{path.name}: alignment produced non-finite coordinates")
-        origin = reference.xyz[0] if reference_mode == "frame0" else coordinates.mean(axis=0)
-        curves.append(calculate_rmsf(coordinates, origin))
+        curves.append(calculate_rmsf(coordinates))
     return reference.topology, indices, np.asarray(curves)
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("input_dir", nargs="?", type=Path, default=DEFAULT_INPUT)
     parser.add_argument("--output-dir", type=Path, help="Default: input_dir/rmsf")
-    parser.add_argument("--reference", choices=("frame0", "mean"), default="frame0",
-                        help="Displacement reference; alignment always uses frame 0 (default: frame0)")
     args = parser.parse_args()
     input_dir = args.input_dir.expanduser().resolve()
     output_dir = (args.output_dir or input_dir / "rmsf").expanduser().resolve()
-    topology, indices, rmsf = analyze(input_dir, args.reference)
+    topology, indices, rmsf = analyze(input_dir)
     mean_rmsf = rmsf.mean(axis=0)
     sd_rmsf = rmsf.std(axis=0, ddof=1)
     atoms = list(topology.atoms)
     residue_indices = np.array([atom.residue.index + 1 for atom in atoms])
     output_dir.mkdir(parents=True, exist_ok=True)
-    stem = f"rmsf_{args.reference}"
+    stem = "rmsf_mean"
     with (output_dir / f"{stem}.csv").open("w", newline="") as handle:
         writer = csv.writer(handle)
         writer.writerow(["residue_index_1based", "chain_index_0based", "residue_number",
@@ -93,11 +91,9 @@ def main():
         ax.plot(residue_indices, values, label=f"Trajectory {replica}", linewidth=1.1, alpha=0.2)
     ax.plot(residue_indices, mean_rmsf, label="Mean (8 trajectories)",
             color="black", linewidth=1.1, zorder=10)
-    reference_label = "frame 0" if args.reference == "frame0" else "each replica mean"
-    ylabel = "RMS displacement from frame 0 (Å)" if args.reference == "frame0" else "RMSF (Å)"
     ax.set(title=f"{input_dir.name} — Cα RMSF", xlabel="Residue index (1-based)",
-           ylabel=ylabel, xlim=(residue_indices[0], residue_indices[-1]), ylim=(0, None))
-    ax.text(0.01, 0.98, f"Fit: trajectory 0, frame 0 | Reference: {reference_label} | Frames: 0–100 ns",
+           ylabel="RMSF (Å)", xlim=(residue_indices[0], residue_indices[-1]), ylim=(0, None))
+    ax.text(0.01, 0.98, "Fit: frame 0 | RMSF: each residue's mean position within each replica | Frames: 0–100 ns",
             transform=ax.transAxes, va="top", fontsize=9)
     ax.grid(alpha=0.2)
     ax.legend(ncol=4, loc="upper center", bbox_to_anchor=(0.5, -0.12), frameon=False)

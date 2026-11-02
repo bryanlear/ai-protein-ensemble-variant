@@ -24,13 +24,12 @@ def main():
     parser.add_argument("input_dir", nargs="?", type=Path,
                         default=ROOT / "outputs/bioemu2/output_bioemu2")
     parser.add_argument("--output-dir", type=Path)
-    parser.add_argument("--reference", choices=("frame0", "mean"), default="frame0")
     args = parser.parse_args()
     input_dir = args.input_dir.expanduser().resolve()
     output_dir = (args.output_dir or input_dir / "combined_means").expanduser().resolve()
     curves = []
     for label, folder, color in PROTEINS:
-        path = input_dir / folder / "rmsf" / f"rmsf_{args.reference}.csv"
+        path = input_dir / folder / "rmsf" / "rmsf_mean.csv"
         data = np.genfromtxt(path, delimiter=",", names=True, dtype=None, encoding="utf-8")
         x = np.atleast_1d(data["residue_index_1based"])
         y = np.atleast_1d(data["mean_rmsf_angstrom"])
@@ -44,15 +43,14 @@ def main():
     
     for x, y, label, color in curves:
         ax.plot(x, y, label=label, color=color, linewidth=1.1)
-    ylabel = "RMS displacement from frame 0 (Å)" if args.reference == "frame0" else "RMSF (Å)"
     ax.set(title="Mean Cα RMSF — residues 50–110",
-           xlabel="Residue index within each protein (1-based)", ylabel=ylabel,
+           xlabel="Residue index within each protein (1-based)", ylabel="RMSF (Å)",
            xlim=(50, 110), ylim=(0, None))
     ax.grid(alpha=0.2)
     ax.legend(frameon=False)
     output_dir.mkdir(parents=True, exist_ok=True)
     for extension in ("png", "pdf"):
-        fig.savefig(output_dir / f"combined_mean_rmsf_{args.reference}_50_110.{extension}", dpi=200)
+        fig.savefig(output_dir / f"combined_mean_rmsf_mean_50_110.{extension}", dpi=200)
     plt.close(fig)
 
 if __name__ == "__main__":
