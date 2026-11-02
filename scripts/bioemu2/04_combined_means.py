@@ -23,15 +23,13 @@ def main():
     parser.add_argument("input_dir", nargs="?", type=Path,
                         default=ROOT / "outputs/bioemu2/output_bioemu2")
     parser.add_argument("--output-dir", type=Path)
-    parser.add_argument("--reference", choices=("frame0", "mean"), default="frame0")
     args = parser.parse_args()
     input_dir = args.input_dir.expanduser().resolve()
     output_dir = (args.output_dir or input_dir / "combined_means").expanduser().resolve()
-    rmsf_label = "RMS displacement from frame 0 (Å)" if args.reference == "frame0" else "RMSF (Å)"
     plots = (
         ("rmsd", "rmsd", "time_ns", "Time (ns)", "RMSD (Å)"),
-        ("rmsf", f"rmsf_{args.reference}", "residue_index_1based",
-         "Residue index within each protein (1-based)", rmsf_label),
+        ("rmsf", "rmsf_mean", "residue_index_1based",
+         "Residue index within each protein (1-based)", "RMSF (Å)"),
     )
     curves = {}
     for metric, stem, x_column, _, _ in plots:
